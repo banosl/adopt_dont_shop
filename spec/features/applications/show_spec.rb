@@ -26,7 +26,6 @@ RSpec.describe "Show spec" do
       visit "/applications/#{@application1.id}"
       expect(page).to have_content("Leo Banos")
       expect(page).to have_content("123 1st St Denver, CO 24135")
-      expect(page).to have_content(@application1.description)
       expect(page).to have_content(@pet1.name)
       expect(page).to have_content(@application1.status)
     end
@@ -60,6 +59,12 @@ RSpec.describe "Show spec" do
       click_on "Submit Application"
       expect(page).to have_content("Application Status: Pending")
       expect(page).to have_content("parent description")
+    end
+
+    it 'application cant be submitted without adding a pet to it' do
+      visit "/applications/#{@application3.id}"
+      expect(page).to_not have_link("Submit Application")
+      expect(page).to_not have_field(:desc)
     end
   end
 end
