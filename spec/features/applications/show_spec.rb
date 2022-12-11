@@ -60,11 +60,19 @@ RSpec.describe "Show spec" do
       expect(page).to have_content("Application Status: Pending")
       expect(page).to have_content("parent description")
     end
-
     it 'application cant be submitted without adding a pet to it' do
       visit "/applications/#{@application3.id}"
       expect(page).to_not have_link("Submit Application")
       expect(page).to_not have_field(:desc)
+    end
+  end
+  describe 'pet search partial' do
+    it 'can return partial matches, regardless of casing' do
+      Pet.create!(adoptable: true, age: 5, breed: "cat", name: "Mr. Kitty", shelter_id: @shelter1.id)
+      visit "/applications/#{@application3.id}"
+      fill_in :petsearch, with: "kitt"
+      click_on "Submit"
+      expect(page).to have_content("Mr. Kitty")
     end
   end
 end

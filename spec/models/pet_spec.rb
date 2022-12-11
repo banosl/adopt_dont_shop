@@ -62,8 +62,13 @@ RSpec.describe Pet, type: :model do
   end
   describe 'petsearch' do
     it 'searches a pet' do
+      Pet.create!(adoptable: true, age: 5, breed: "cat", name: "Mr. Kitty", shelter_id: @shelter1.id)
 
       expect(Pet.petsearch(@pet3.name).first.name).to eq("Charles")
+      expect(Pet.petsearch("Kitty").first.name).to eq( "Mr. Kitty")
+      expect(Pet.petsearch("kitt").first.name).to eq( "Mr. Kitty")
+      expect(Pet.petsearch("KITT").first.name).to eq( "Mr. Kitty")
+
     end
   end
 end
