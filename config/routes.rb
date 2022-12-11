@@ -9,4 +9,7 @@ Rails.application.routes.draw do
 
   resources :application_pets, only: [:create]
 
+  namespace :admin do
+    resources :shelters, only: [:index]
+  end
 end
