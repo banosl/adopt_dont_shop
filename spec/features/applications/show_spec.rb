@@ -13,9 +13,9 @@ RSpec.describe "Show spec" do
     @pet5 = Pet.create!(adoptable: true, age: 5, breed: "cat", name: "Maggie", shelter_id: @shelter2.id)
 
     @application1 = Application.create!(last: "Banos", first: "Leo", street: "123 1st St", city: "Denver", state: "CO", zip:"24135", description: "I am good parent", status: "Pending")
-    @application2 = Application.create!(last: "Lampke", first: "William", street: "456 2nd St", city: "Charlotte", state: "NC", zip:"24451", description: "I am great parent", status: "In Progress")
+    @application2 = Application.create!(last: "Lampke", first: "William", street: "456 2nd St", city: "Charlotte", state: "NC", zip:"24451", description: "I am great parent", status: "Pending")
 
-    @application3 = Application.create!(last: "fake", first: "iam", street: "123 1st St", city: "Denver", state: "CO", zip:"24135", description: "I am good parent", status: "Pending")
+    @application3 = Application.create!(last: "fake", first: "iam", street: "123 1st St", city: "Denver", state: "CO", zip:"24135", description: "I am good parent", status: "In Progress")
 
 
     @ap1 = ApplicationPet.create!(application_id: @application1.id, pet_id: @pet1.id, status: true)
@@ -24,8 +24,6 @@ RSpec.describe "Show spec" do
   describe 'show' do
     it 'shows information on a specific application' do
       visit "/applications/#{@application1.id}"
-
-      save_and_open_page
       expect(page).to have_content("Leo Banos")
       expect(page).to have_content("123 1st St Denver, CO 24135")
       expect(page).to have_content(@application1.description)
@@ -50,6 +48,18 @@ RSpec.describe "Show spec" do
      
       click_on "Add #{@pet3.name}"
       expect(page).to have_content("Pets on Application: Charles")
+    end
+  end
+  describe 'application submit' do
+    it 'has a button to submit if the pets on application catagory is not blank' do
+      visit "/applications/#{@application3.id}"
+      fill_in :petsearch, with: "Charles"
+      click_on "Submit"
+      click_on "Add #{@pet3.name}"
+      fill_in :desc, with: "parent description"
+      click_on "Submit Application"
+      expect(page).to have_content("Application Status: Pending")
+      expect(page).to have_content("parent description")
     end
   end
 end

@@ -20,3 +20,12 @@
     <p><%= pet.name %></p><%= link_to "Add #{pet.name}", "/applications/#{@application.id}?pet=#{pet.id}" %>
     <% end %>
   <% end %>
+
+<section>
+<%= form_with url: "/applications/#{@application.id}?status=Pending", method: :patch, local: true do |form| %>
+  <%= form.label :desc, "Description: " %>
+  <%= form.text_area :desc %>
+  <%= form.submit "Submit Application" %>
+<% end %>
+
+</section>
