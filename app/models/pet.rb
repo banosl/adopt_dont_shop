@@ -13,6 +13,6 @@ class Pet < ApplicationRecord
     where(adoptable: true)
   end
   def self.petsearch(pet)
-    where(name: pet)
+    where("name LIKE ?", "%#{pet.capitalize}%")
   end
 end
