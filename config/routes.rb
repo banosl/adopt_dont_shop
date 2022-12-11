@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get '/', to: 'application#welcome'
 
-  resources :applications, only: [:show, :new, :create]
+  resources :applications, only: [:show, :new, :create, :update]
 
   resources :pets, only: [:index, :destroy, :show, :edit, :update]
 

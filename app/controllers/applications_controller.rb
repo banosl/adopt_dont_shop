@@ -14,12 +14,17 @@ class ApplicationsController < ApplicationController
 
   def create
     @application = Application.new(first: params[:first], last: params[:last], street: params[:street],
-                                   city: params[:city], state: params[:state], zip: params[:zip], description: params[:description], status: 'Pending')
+                                   city: params[:city], state: params[:state], zip: params[:zip], description: params[:description], status: 'In Progress')
     if @application.save
       redirect_to "/applications/#{@application.id}"
     else
       redirect_to '/applications/new'
       flash[:alert] = 'Error, fill in all fields'
     end
+  end
+  def update 
+    application = Application.find(params[:id])
+    application.update(description: params[:desc], status: params[:status])
+    redirect_to "/applications/#{application.id}"
   end
 end
