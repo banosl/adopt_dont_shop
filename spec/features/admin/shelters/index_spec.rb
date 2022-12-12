@@ -32,8 +32,9 @@ RSpec.describe "Index spec" do
       visit "/admin/shelters"
 
       within ("#Pending") do
-        expect(page).to have_content(@shelter1.name)
+        expect(page).to have_content(@shelter1.name, count: 1)
         expect(page).to_not have_content(@shelter2.name)
+        save_and_open_page
       end
     end
   end

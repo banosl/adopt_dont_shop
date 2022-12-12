@@ -21,6 +21,14 @@ RSpec.describe Shelter, type: :model do
     @pet_2 = @shelter_1.pets.create(name: 'Clawdia', breed: 'shorthair', age: 3, adoptable: true)
     @pet_3 = @shelter_3.pets.create(name: 'Lucille Bald', breed: 'sphynx', age: 8, adoptable: true)
     @pet_4 = @shelter_1.pets.create(name: 'Ann', breed: 'ragdoll', age: 5, adoptable: true)
+
+    @application1 = Application.create!(last: "Banos", first: "Leo", street: "123 1st St", city: "Denver", state: "CO", zip:"24135", description: "I am good parent", status: "Pending")
+    @application2 = Application.create!(last: "Lampke", first: "William", street: "456 2nd St", city: "Charlotte", state: "NC", zip:"24451", description: "I am great parent", status: "Pending")
+    @application3 = Application.create!(last: "fake", first: "iam", street: "123 1st St", city: "Denver", state: "CO", zip:"24135", description: "I am good parent", status: "In Progress")
+
+
+    @ap1 = ApplicationPet.create!(application_id: @application1.id, pet_id: @pet_1.id, status: true)
+    @ap2 = ApplicationPet.create!(application_id: @application2.id, pet_id: @pet_2.id, status: false)
   end
 
   describe 'class methods' do
@@ -71,6 +79,12 @@ RSpec.describe Shelter, type: :model do
     describe "#reverse_alphabetical" do
       it "can order the shelters by revere alphabetical" do
         expect(Shelter.reverse_alphabetical).to eq([@shelter_2, @shelter_3, @shelter_1])
+      end
+    end
+
+    describe "#pending" do
+      it "shows distinct list of shelters with pending applications" do
+        expect(Shelter.pending).to eq([@shelter_1])
       end
     end
   end
