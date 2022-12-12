@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'welcome#index'
   get '/', to: 'application#welcome'
 
   resources :applications, only: [:show, :new, :create, :update]
