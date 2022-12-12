@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   resources :applications, only: [:show, :new, :create, :update]
 
-  resources :pets, only: [:index, :destroy, :show, :edit, :update]
+  resources :pets, only: [:index, :show, :edit, :update, :destroy]
 
   resources :shelters, only: [:index, :new, :create, :destroy, :show, :edit, :update]
 
@@ -13,4 +13,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :shelters, only: [:index]
   end
+
+  resources :veterinary_offices, only: [:index, :new, :show, :create, :edit, :update, :destroy]
+  resources :veterinarians, only: [:index, :show, :edit, :update, :destroy]
 end
