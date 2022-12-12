@@ -7,7 +7,7 @@
 <section><h2>Shelters with Pending Applications</h2><br/>
 <div id="Pending">
 <% @pending_shelters.each do |pending_shelter|%>
-  <p><%= pending_shelter.pet.shelter.name %></p>
+  <p><%= pending_shelter.name %></p>
 <% end %>
 </div>
 
