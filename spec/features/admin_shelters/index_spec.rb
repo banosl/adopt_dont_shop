@@ -27,6 +27,15 @@ RSpec.describe "Index spec" do
       visit "/admin/shelters"
       expect(@shelter1.name).to appear_before(@shelter2.name)
     end
+
+    it "see section for shelters with pending apps" do
+      visit "/admin/shelters"
+
+      within ("#Pending") do
+        expect(page).to have_content(@shelter1.name)
+        expect(page).to_not have_content(@shelter2.name)
+      end
+    end
   end
 end
 
