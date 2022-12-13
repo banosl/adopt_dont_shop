@@ -5,7 +5,7 @@ class ApplicationsController < ApplicationController
       @pets = Pet.petsearch(params[:petsearch])
     end
     if params[:pet] != nil
-     ApplicationPet.create!(application_id: @application.id, pet_id: params[:pet].to_i, status: true)
+     ApplicationPet.create!(application_id: @application.id, pet_id: params[:pet].to_i, status: nil)
     end
       
   end

@@ -26,6 +26,7 @@ RSpec.describe 'Admin Show Spec' do
   describe 'approve buttons' do
     it 'can approve a pet and update it to say approved ' do
       visit "/admin/applications/#{@application1.id}"
+      save_and_open_page
       click_on 'Approve'
       expect(page).to have_content('Approved')
     end
