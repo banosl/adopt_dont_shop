@@ -1,0 +1,22 @@
+<h1>Admin Application Show</h1>
+
+<p>Applicant Name: <%= @application.first %> <%= @application.last %> </p>
+<p>Address: <%= @application.street %> <%= @application.city %>, <%= @application.state %> <%= @application.zip %></p>
+<p>Description: <%= @application.description%></p>
+<% @application.pets.each do |pet|  %>
+  <p>Pets on Application: </p>
+  <p><%= pet.name %></p> 
+    <% ap = ApplicationPet.update_helper(@application.id, pet.id) %>
+    <% if ap.status == nil %>
+      <%= form_with url: "/admin/applications/#{@application.id}?approve=#{pet.id}", method: :patch, local: true do |form|%>
+        <%= form.submit "Approve" %>
+      <% end %>
+      <%= form_with url: "/admin/applications/#{@application.id}?reject=#{pet.id}", method: :patch, local: true do |form|%>
+        <%= form.submit "Reject" %>
+      <% end %>
+    <% elsif ap.status == true %>
+        <p>Status: Approved <p>
+    <% elsif ap.status == false %>  
+        <p>Status: Rejected <p> 
+    <% end%>
+<% end %>
