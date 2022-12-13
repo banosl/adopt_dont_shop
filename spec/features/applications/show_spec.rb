@@ -68,7 +68,7 @@ RSpec.describe "Show spec" do
   end
   describe 'pet search partial' do
     it 'can return partial matches, regardless of casing' do
-      Pet.create!(adoptable: true, age: 5, breed: "cat", name: "Mr. Kitty", shelter_id: @shelter1.id)
+        Pet.create!(adoptable: true, age: 5, breed: "cat", name: "Mr. Kitty", shelter_id: @shelter1.id)
       visit "/applications/#{@application3.id}"
       fill_in :petsearch, with: "kitt"
       click_on "Submit"

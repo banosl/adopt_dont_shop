@@ -1,10 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationPet, type: :model do
-  describe 'relationships' do
-    it { should belong_to :application }
-    it { should belong_to :pet }
-  end
+RSpec.describe 'Admin Show Spec' do
   before :each do
     @shelter1 = Shelter.create!(foster_program: true, name: 'Denver Animal Shelter', city: 'Denver', rank: 1)
     @shelter2 = Shelter.create!(foster_program: false, name: 'Charlotte Dog Catchers', city: 'Charlotte', rank: 12)
@@ -16,20 +12,29 @@ RSpec.describe ApplicationPet, type: :model do
     @pet4 = Pet.create!(adoptable: false, age: 12, breed: 'dog', name: 'Paul', shelter_id: @shelter1.id)
     @pet5 = Pet.create!(adoptable: true, age: 5, breed: 'cat', name: 'Maggie', shelter_id: @shelter2.id)
 
-    @application1 = Application.create!(last: 'Banos', first: 'Leo', street: '123 1st St', city: 'Denver',
-                                        state: 'CO', zip: '24135', description: 'I am good parent', status: 'Pending')
+    @application1 = Application.create!(last: 'Banos', first: 'Leo', street: '123 1st St', city: 'Denver', state: 'CO',
+                                        zip: '24135', description: 'I am good parent', status: 'Pending')
     @application2 = Application.create!(last: 'Lampke', first: 'William', street: '456 2nd St', city: 'Charlotte',
                                         state: 'NC', zip: '24451', description: 'I am great parent', status: 'Pending')
 
-    @application3 = Application.create!(last: 'fake', first: 'iam', street: '123 1st St', city: 'Denver',
-                                        state: 'CO', zip: '24135', description: 'I am good parent', status: 'In Progress')
+    @application3 = Application.create!(last: 'fake', first: 'iam', street: '123 1st St', city: 'Denver', state: 'CO',
+                                        zip: '24135', description: 'I am good parent', status: 'In Progress')
 
     @ap1 = ApplicationPet.create!(application_id: @application1.id, pet_id: @pet1.id, status: nil)
     @ap2 = ApplicationPet.create!(application_id: @application2.id, pet_id: @pet2.id, status: nil)
   end
-  describe '#update_helper' do
-    it 'finds a app pet by two ids' do
-        expect(ApplicationPet.update_helper(@application1.id, @pet1.id)).to eq(@ap1)
+  describe 'approve buttons' do
+    it 'can approve a pet and update it to say approved ' do
+      visit "/admin/applications/#{@application1.id}"
+      click_on 'Approve'
+      expect(page).to have_content('Approved')
+    end
+    describe 'reject buttons' do
+      it 'can reject a pet and update it to say rejected' do
+        visit "/admin/applications/#{@application1.id}"
+        click_on 'Reject'
+        expect(page).to have_content('Rejected')
+      end
     end
   end
 end
