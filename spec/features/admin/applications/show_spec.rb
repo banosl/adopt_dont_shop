@@ -29,12 +29,27 @@ RSpec.describe 'Admin Show Spec' do
       click_on 'Approve'
       expect(page).to have_content('Approved')
     end
-    describe 'reject buttons' do
-      it 'can reject a pet and update it to say rejected' do
-        visit "/admin/applications/#{@application1.id}"
-        click_on 'Reject'
-        expect(page).to have_content('Rejected')
-      end
+  end
+  describe 'reject buttons' do
+    it 'can reject a pet and update it to say rejected' do
+      visit "/admin/applications/#{@application1.id}"
+      click_on 'Reject'
+      expect(page).to have_content('Rejected')
+    end
+  end
+
+  describe "approving/denying one applications pet does not affect other applications" do
+    it "checks application 2 doesn't refer to the accepted pet on application1" do
+
+      @ap3 = ApplicationPet.create!(application_id: @application3.id, pet_id: @pet1.id, status: nil)
+      visit "/admin/applications/#{@application1.id}"
+      click_on 'Approve'
+      visit "/admin/applications/#{@application3.id}"
+
+      expect(page).to have_content("Luca")
+      expect(page).to have_button("Approve")
+      expect(page).to have_button("Reject")
+
     end
   end
 end
