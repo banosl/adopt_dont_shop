@@ -6,7 +6,6 @@ RSpec.describe "Applications New" do
             visit '/applications/new'
             fill_in :first, with: "Leo"
             click_on "Submit"
-            save_and_open_page
 
             expect(page).to have_content "Error, fill in all fields"
         end

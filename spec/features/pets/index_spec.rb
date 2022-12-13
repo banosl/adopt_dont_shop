@@ -94,7 +94,6 @@ RSpec.describe 'the pets index' do
       fill_in :description, with: "desc"
 
       click_on "Submit"
-      save_and_open_page
 
       expect(page).to have_content("firstname")
       expect(page).to have_content("lastname")
@@ -103,7 +102,6 @@ RSpec.describe 'the pets index' do
       expect(page).to have_content("state")
       expect(page).to have_content("zip")
       expect(page).to have_content("desc")
-
     end
   end
 end
