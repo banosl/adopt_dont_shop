@@ -3,16 +3,17 @@
 <p>Applicant Name: <%= @application.first %> <%= @application.last %> </p>
 <p>Address: <%= @application.street %> <%= @application.city %>, <%= @application.state %> <%= @application.zip %></p>
 <p>Description: <%= @application.description%></p>
+<p>Status: <%= @application.status %> </p>
+  <h3>Pets on Application: </h3>
 <% @application.pets.each do |pet|  %>
-  <p>Pets on Application: </p>
   <p><%= pet.name %></p> 
     <% ap = ApplicationPet.update_helper(@application.id, pet.id) %>
     <% if ap.status == nil %>
       <%= form_with url: "/admin/applications/#{@application.id}?approve=#{pet.id}", method: :patch, local: true do |form|%>
-        <%= form.submit "Approve" %>
+        <%= form.submit "Approve #{pet.name}" %>
       <% end %>
       <%= form_with url: "/admin/applications/#{@application.id}?reject=#{pet.id}", method: :patch, local: true do |form|%>
-        <%= form.submit "Reject" %>
+        <%= form.submit "Reject #{pet.name}" %>
       <% end %>
     <% elsif ap.status == true %>
         <p>Status: Approved <p>

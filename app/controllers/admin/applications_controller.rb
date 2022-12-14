@@ -1,6 +1,8 @@
 class Admin::ApplicationsController < ApplicationController
     def show 
         @application = Application.find(params[:id])
+        ApplicationPet.status_check(@application.application_pets, @application.id, @application.application_pets.length)
+        @application = Application.find(params[:id])
     end
     def update
         application = Application.find(params[:id])

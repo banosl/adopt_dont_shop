@@ -26,7 +26,6 @@ RSpec.describe 'Admin Show Spec' do
   describe 'approve buttons' do
     it 'can approve a pet and update it to say approved ' do
       visit "/admin/applications/#{@application1.id}"
-      save_and_open_page
       click_on 'Approve'
       expect(page).to have_content('Approved')
     end
@@ -39,18 +38,32 @@ RSpec.describe 'Admin Show Spec' do
     end
   end
 
-  describe "approving/denying one applications pet does not affect other applications" do
+  describe 'approving/denying one applications pet does not affect other applications' do
     it "checks application 2 doesn't refer to the accepted pet on application1" do
-
       @ap3 = ApplicationPet.create!(application_id: @application3.id, pet_id: @pet1.id, status: nil)
       visit "/admin/applications/#{@application1.id}"
       click_on 'Approve'
       visit "/admin/applications/#{@application3.id}"
 
-      expect(page).to have_content("Luca")
-      expect(page).to have_button("Approve")
-      expect(page).to have_button("Reject")
+      expect(page).to have_content('Luca')
+      expect(page).to have_button('Approve')
+      expect(page).to have_button('Reject')
+    end
+    describe 'application approved' do
+      it 'shows app status as approved when all pets on app are approved' do
+        ap3 = ApplicationPet.create!(application_id: @application3.id, pet_id: @pet1.id, status: nil)
+        visit "/admin/applications/#{@application3.id}"
+        click_on "Approve Luca"
+        expect(page).to have_content('Approved')
+        ap4 = ApplicationPet.create!(application_id: @application3.id, pet_id: @pet2.id, status: nil)
+        visit "/admin/applications/#{@application3.id}"
+        expect(page).to have_content('In Progress')
+        click_on "Approve Sebastian"
+        expect(page).to have_content('Approved')
+        
 
+        
+      end
     end
   end
 end
