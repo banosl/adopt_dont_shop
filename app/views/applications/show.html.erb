@@ -8,24 +8,27 @@
 <% end %>
 <p>Application Status: <%= @application.status %></p>
 
+<% if @application.status == "In Progress" %>
 <section> <h2>Add a pet to this application: </h2>
-<%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |form| %>
-    <%= form.text_field :petsearch %>
-    <%= form.submit "Submit" %>
-<% end %>
-</section>
-<h4>Pets: </h4>
-<% if @pets != nil %>
-  <% @pets.each do |pet| %>
-    <p><%= pet.name %></p><%= link_to "Add #{pet.name}", "/applications/#{@application.id}?pet=#{pet.id}" %>
+    <%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |form| %>
+        <%= form.text_field :petsearch %>
+        <%= form.submit "Submit" %>
     <% end %>
-  <% end %>
-<%if @application.pets != []%>
-  <section>
-    <%= form_with url: "/applications/#{@application.id}?status=Pending", method: :patch, local: true do |form| %>
-      <%= form.label :desc, "Description: " %>
-      <%= form.text_area :desc %>
-      <%= form.submit "Submit Application" %>
+    </section>
+    <h4>Pets: </h4>
+    <% if @pets != nil %>
+      <% @pets.each do |pet| %>
+        <p><%= pet.name %></p><%= link_to "Add #{pet.name}", "/applications/#{@application.id}?pet=#{pet.id}" %>
+      <% end %>
     <% end %>
-  </section>
+    <%if @application.pets != []%>
+      <section>
+        <%= form_with url: "/applications/#{@application.id}?status=Pending", method: :patch, local: true do |form| %>
+          <%= form.label :desc, "Description: " %>
+          <%= form.text_area :desc %>
+          <%= form.submit "Submit Application" %>
+        <% end %>
+    <% end %>
+<% elsif @application.status != "In Progress" %>
+  <h4> Application Submitted </h4>
 <% end %>
